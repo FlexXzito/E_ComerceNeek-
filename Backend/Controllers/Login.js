@@ -4,37 +4,29 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 export const Login = async (req, res) => {
-    const { Username, Password } = req.body;
+    const { Email, Password } = req.body;
 
-    if (!Username || !Password) {
+    if (!Email || !Password) {
         return res.status(400).json({ message: 'Faltan datos requeridos' });
     }
 
     try {   
-        const credenciales = await prisma.User.findMany({
+        const usuario = await prisma.user.findFirst({
             where: {
-                Username: Username,
+                Email: Email,
             }
         });
 
-        if (credenciales.length === 0) {
+        if (!usuario) {
             return res.status(404).json({ message: 'Usuario no encontrado' });
         }
 
-        let credencialValida = null;
-        for (const credencial of credenciales) {
-            const isPasswordValid = await bcrypt.compare(Password, credencial.Password);
-            if (isPasswordValid) {
-                credencialValida = credencial;
-                break;
-            }
-        }
-
-        if (!credencialValida) {
+        const isPasswordValid = await bcrypt.compare(Password, usuario.Password);
+        if (!isPasswordValid) {
             return res.status(401).json({ message: 'Contraseña incorrecta' });
         }
 
-        const { Password: _, ...userWithoutPassword } = credencialValida;
+        const { Password: _, ...userWithoutPassword } = usuario;
         res.json({ message: "Inicio de sesión exitoso", usuario: userWithoutPassword });
 
     } catch (error) {

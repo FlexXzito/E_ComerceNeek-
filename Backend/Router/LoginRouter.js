@@ -3,6 +3,6 @@ import { Login } from '../Controllers/Login.js';
 
 
 const route = express.Router();
-route.get('/login', Login);
+route.post('/login', Login);
 
 export default route;
