@@ -1,8 +1,24 @@
-import { useState } from 'react';
-import { Search, ShoppingCart, User, Menu, X, Cpu, Gamepad } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, ShoppingCart, User, Menu, X, Gamepad } from 'lucide-react';
+import LoginSignUp from './LoginSignUp.jsx';
 
 function HeaderBar({ onPageChange, activePage }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  
+  const openLoginModal = () => setIsLoginModalOpen(true);
+  const closeLoginModal = () => setIsLoginModalOpen(false);
+
+  const [visits, setVisits] = useState(0);
+
+  useEffect(() => {
+    const currentVisits = parseInt(localStorage.getItem('visitCount') || '0', 10);
+    const newVisits = currentVisits + 1;
+    localStorage.setItem('visitCount', newVisits);
+    setVisits(newVisits);
+  }, []);
+
+  console.log(`Visitas: ${visits}, ${localStorage.getItem('visitCount')}`);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -51,7 +67,10 @@ function HeaderBar({ onPageChange, activePage }) {
 
         {/* Action buttons */}
         <div className="flex items-center space-x-4">
-          <button className="text-gray-300 hover:text-green-400 focus:outline-none transition duration-200">
+          <button 
+            className="text-gray-300 hover:text-green-400 focus:outline-none transition duration-200"
+            onClick={openLoginModal}
+          >
             <User size={24} />
           </button>
           <button className="text-gray-300 hover:text-green-400 focus:outline-none relative transition duration-200">
@@ -156,6 +175,12 @@ function HeaderBar({ onPageChange, activePage }) {
           </ul>
         </div>
       </nav>
+      
+      {/* Login/SignUp Modal */}
+      <LoginSignUp 
+        isOpen={isLoginModalOpen} 
+        onClose={closeLoginModal} 
+      />
     </header>
   );
 }

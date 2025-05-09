@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id_User   String   @id @unique @default(uuid())
+  Username  String
+  Email     String   @unique
+  Password  String
+  Acepto    Boolean  @default(false)
+}
+
+
+// {
+//     "Username":"David",
+//     "Password":"12345",
+//     "Email":"david@david.com",
+//     "Acepto":"true"
+// }
+
+// {
+//     "Username":"David",
+//     "Password":"12345"
+// }
