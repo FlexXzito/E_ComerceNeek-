@@ -1,0 +1,13 @@
+version: '3.8'
+
+services: 
+  app:
+    container_name: FrontendEcomerce
+    build: .
+    ports:
+      - "9000:9000"
+    environment:
+       VITE_URL : ${VITE_URL}
+       VITE_KEY_SECRET : ${VITE_KEY_SECRET}
+    volumes:
+      - .:/app
