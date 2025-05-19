@@ -91,14 +91,14 @@ export default function LoginSignUp({ isOpen = false, onClose, onLoginSuccess })
       
       Cookies.set('id_User', encryptedId, { 
         expires: 1, 
-        secure: true,
+        // secure: true,
         sameSite: "Strict",
         path: "/",
       });
       
       Cookies.set('Username', encryptedUsername, {
         expires: 1,
-        secure: true,
+        // secure: true,
         sameSite: "Strict",
         path: "/",
       });

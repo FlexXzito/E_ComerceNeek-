@@ -1,13 +1,16 @@
 version: '3.8'
 
-services: 
+services:
   app:
     container_name: FrontendEcomerce
     build: .
     ports:
-      - "9000:9000"
+      - "5173:5173"
     environment:
-       VITE_URL : ${VITE_URL}
-       VITE_KEY_SECRET : ${VITE_KEY_SECRET}
+      VITE_URL: ${VITE_URL}
+      VITE_KEY_SECRET: ${VITE_KEY_SECRET}
     volumes:
+      # 1. Monta el código fuente local (para ver cambios en caliente).
       - .:/app
+      # 2. Preserva el node_modules instalado dentro de la imagen para que no se sobrescriba.
+      - /app/node_modules

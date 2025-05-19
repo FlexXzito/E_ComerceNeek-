@@ -1,7 +1,7 @@
 // App.jsx
 import { useState } from 'react';
-import HeaderBar from './Components/HeaderBar';
-import FooterBar from './components/FooterBar';
+import HeaderBar from './Components/HeaderBar.jsx';
+import FooterBar from './Components/FooterBar.jsx';
 import Home from './Pages/Home';
 import Novedades from './Pages/Novedades';
 import Consolas from './Pages/Consolas';
