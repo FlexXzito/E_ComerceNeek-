@@ -7,23 +7,32 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// =====================
+// Modelo de Usuarios
+// =====================
+
 model User {
-  id_User   String   @id @unique @default(uuid())
-  Username  String
-  Email     String   @unique
-  Password  String
-  Acepto    Boolean  @default(false)
+  id_User  String  @id @default(uuid())
+  Username String
+  Email    String  @unique
+  Password String
+  Acepto   Boolean @default(false)
 }
 
+// =====================
+// Modelo de Productos
+// =====================
 
-// {
-//     "Username":"David",
-//     "Password":"12345",
-//     "Email":"david@david.com",
-//     "Acepto":"true"
-// }
-
-// {
-//     "Username":"David",
-//     "Password":"12345"
-// }
+model Producto {
+  id              String             @id @default(uuid())
+  nombre          String
+  marca           String
+  cantidad        Int
+  caracteristicas Json
+  Imagenes        Json
+  precio          Float
+  preciooferta    Float
+  tipo            String
+  busqueda        Json
+  estado          String
+}
