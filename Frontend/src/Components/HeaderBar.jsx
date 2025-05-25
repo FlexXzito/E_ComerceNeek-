@@ -173,25 +173,25 @@ function HeaderBar({ onPageChange, activePage }) {
                 onClick={(e) => { e.preventDefault(); handleNavClick('home'); }} 
                 className="flex items-center"
               >
-                <span className="text-green-400 mr-2">[</span>Home<span className="text-green-400 ml-2">]</span>
+                <span className="text-green-400 mr-2"></span>Home<span className="text-green-400 ml-2"></span>
               </a>
             </li>
-            <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'novedades' ? 'bg-gray-700' : ''}`}>
+            {/* <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'novedades' ? 'bg-gray-700' : ''}`}>
               <a 
                 href="#" 
                 onClick={(e) => { e.preventDefault(); handleNavClick('novedades'); }} 
                 className="flex items-center"
               >
-                <span className="text-purple-400 mr-2">[</span>Novedades<span className="text-purple-400 ml-2">]</span>
+                <span className="text-purple-400 mr-2"></span>Novedades<span className="text-purple-400 ml-2">]</span>
               </a>
-            </li>
+            </li> */}
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'consolas' ? 'bg-gray-700' : ''}`}>
               <a 
                 href="#" 
                 onClick={(e) => { e.preventDefault(); handleNavClick('consolas'); }} 
                 className="flex items-center"
               >
-                <span className="text-green-400 mr-2">[</span>Consolas<span className="text-green-400 ml-2">]</span>
+                <span className="text-green-400 mr-2"></span>Consolas<span className="text-green-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'pcgaming' ? 'bg-gray-700' : ''}`}>
@@ -200,7 +200,7 @@ function HeaderBar({ onPageChange, activePage }) {
                 onClick={(e) => { e.preventDefault(); handleNavClick('pcgaming'); }} 
                 className="flex items-center"
               >
-                <span className="text-purple-400 mr-2">[</span>PC Gaming<span className="text-purple-400 ml-2">]</span>
+                <span className="text-purple-400 mr-2"></span>PC_Gaming<span className="text-purple-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'perifericos' ? 'bg-gray-700' : ''}`}>
@@ -209,7 +209,7 @@ function HeaderBar({ onPageChange, activePage }) {
                 onClick={(e) => { e.preventDefault(); handleNavClick('perifericos'); }} 
                 className="flex items-center"
               >
-                <span className="text-green-400 mr-2">[</span>Perifericos<span className="text-green-400 ml-2">]</span>
+                <span className="text-green-400 mr-2"></span>Perifericos<span className="text-green-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'merchandising' ? 'bg-gray-700' : ''}`}>
@@ -218,7 +218,7 @@ function HeaderBar({ onPageChange, activePage }) {
                 onClick={(e) => { e.preventDefault(); handleNavClick('merchandising'); }} 
                 className="flex items-center"
               >
-                <span className="text-purple-400 mr-2">[</span>Merchandising<span className="text-purple-400 ml-2">]</span>
+                <span className="text-purple-400 mr-2"></span>Merchandising<span className="text-purple-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'coleccionables' ? 'bg-gray-700' : ''}`}>
@@ -227,7 +227,7 @@ function HeaderBar({ onPageChange, activePage }) {
                 onClick={(e) => { e.preventDefault(); handleNavClick('coleccionables'); }} 
                 className="flex items-center"
               >
-                <span className="text-green-400 mr-2">[</span>Coleccionables<span className="text-green-400 ml-2">]</span>
+                <span className="text-green-400 mr-2"></span>Coleccionables<span className="text-green-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'accesorios' ? 'bg-gray-700' : ''}`}>
@@ -236,7 +236,7 @@ function HeaderBar({ onPageChange, activePage }) {
                 onClick={(e) => { e.preventDefault(); handleNavClick('accesorios'); }} 
                 className="flex items-center"
               >
-                <span className="text-purple-400 mr-2">[</span>Accesorios<span className="text-purple-400 ml-2">]</span>
+                <span className="text-purple-400 mr-2"></span>Accesorios<span className="text-purple-400 ml-2"></span>
               </a>
             </li>
           </ul>

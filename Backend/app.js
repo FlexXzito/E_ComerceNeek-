@@ -7,6 +7,7 @@ import {
     OfertasFlashRute,
     NewProductsRute,
     TendenciasRute,
+    TipoSeaerchRute
 
 } from './Routes.js'
 
@@ -19,5 +20,6 @@ app.use('/MyEcomerceNeek', SingUpRute);
 app.use('/MyEcomerceNeek', OfertasFlashRute);
 app.use('/MyEcomerceNeek', NewProductsRute);
 app.use('/MyEcomerceNeek', TendenciasRute);
+app.use('/MyEcomerceNeek', TipoSeaerchRute);
 
 export default app;

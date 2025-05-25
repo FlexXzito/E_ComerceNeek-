@@ -12,27 +12,27 @@ function Home() {
   const promoSlides = [
     {
       id: 1,
-      title: "PS5 Pro - ¡Ya disponible!",
+      title: "PS5 Pro - ¡Ya disponible para reserva!",
       description: "Experimenta el futuro del gaming con resolución 8K y 120fps",
       buttonText: "Reservar ahora",
-      image: "/api/placeholder/800/400",
-      bgColor: "from-purple-900 to-gray-900"
+      image: "../../public/1.webp",
+      bgColor: "from-blue-900 via-blue-500 to-blue-200"
     },
     {
       id: 2,
       title: "Ofertas NVIDIA Serie 40",
       description: "Descuentos exclusivos en tarjetas RTX 4070 y 4080",
       buttonText: "Ver ofertas",
-      image: "/api/placeholder/800/400",
-      bgColor: "from-green-900 to-gray-900"
+      image: "../../public/2.png",
+      bgColor: "from-green-900 via-green-500 to-green-200"
     },
     {
       id: 3,
       title: "Colección Nintendo edición 35 aniversario",
       description: "Figuras y merchandising exclusivo de edición limitada",
       buttonText: "Descubrir colección",
-      image: "/api/placeholder/800/400",
-      bgColor: "from-purple-900 to-gray-900"
+      image: "../../public/3.png",
+      bgColor: "from-red-900 via-red-500 to-red-200"
     }
   ];
 
@@ -128,10 +128,10 @@ function Home() {
           src={
             product.Imagenes && product.Imagenes.images
               ? `data:image/jpeg;base64,${product.Imagenes.images}`
-              : "/api/placeholder/200/200"
+              : "No Image"
           }
           alt={product.nombre}
-          className="w-full h-48 object-contain mb-4 bg-gray-900 rounded"
+          className="w-full h-full object-contain mb-4 bg-gray-900 rounded"
         />
 
         {product.preciooferta < product.precio && (
@@ -147,7 +147,7 @@ function Home() {
       </div>
 
       <div className="mb-3 flex items-center justify-between">
-        {renderRatingStars()}
+        {/* {renderRatingStars()} */}
         <span className="text-gray-400 text-sm">({product.cantidad} disponibles)</span>
       </div>
 
@@ -197,13 +197,13 @@ function Home() {
                 <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center">
                   <div className="md:w-1/2 z-10 mb-8 md:mb-0">
                     <h2 className="text-3xl md:text-5xl font-bold mb-4">
-                      <span className="text-green-400">{slide.title.split(' ')[0]}</span>
+                      <span className="0">{slide.title.split(' ')[0]}</span>
                       <span className="text-white"> {slide.title.split(' ').slice(1).join(' ')}</span>
                     </h2>
                     <p className="text-gray-300 text-lg mb-6">{slide.description}</p>
-                    <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-green-400 transform hover:scale-105">
+                    {/* <button className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-bold transition duration-300 border-2 border-green-400 transform hover:scale-105">
                       {slide.buttonText}
-                    </button>
+                    </button> */}
                   </div>
                   <div className="md:w-1/2 flex justify-center relative z-0">
                     <div className="w-full h-64 md:h-80">
@@ -243,7 +243,6 @@ function Home() {
               <span className="text-green-400 ml-2">]</span>
             </h2>
             <a href="#" className="text-purple-400 hover:text-purple-300 flex items-center">
-              Ver todas <ChevronRight size={16} />
             </a>
           </div>
 
@@ -269,7 +268,6 @@ function Home() {
             <span className="text-green-400 ml-2">]</span>
           </h2>
           <a href="#" className="text-orange-400 hover:text-orange-300 flex items-center">
-            Ver todos <ChevronRight size={16} />
           </a>
         </div>
 
@@ -294,7 +292,6 @@ function Home() {
             <span className="text-purple-400 ml-2">]</span>
           </h2>
           <a href="#" className="text-green-400 hover:text-green-300 flex items-center">
-            Ver todos <ChevronRight size={16} />
           </a>
         </div>
 
