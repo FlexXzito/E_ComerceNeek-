@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Star, Tag, TrendingUp, Package, Clock } from 'lucide-react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import CryptoJS from 'crypto-js';
 
 function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -173,7 +175,39 @@ function Home() {
         </div>
       )}
 
-      <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded font-bold border border-green-400 transition duration-300 transform hover:scale-105">
+      <button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded font-bold border border-green-400 transition duration-300 transform hover:scale-105"
+        onClick={() => {
+          // Leer la cookie existente
+          const encrypted = Cookies.get('idproduct');
+          let productArray = [];
+
+          if (encrypted) {
+            try {
+              const bytes = CryptoJS.AES.decrypt(encrypted, import.meta.env.VITE_KEY_SECRET);
+              const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+              productArray = JSON.parse(decrypted);
+            } catch (error) {
+              console.error("Error al desencriptar la cookie:", error);
+              productArray = [];
+            }
+          }
+
+          // Agregar el nuevo ID si no está duplicado (opcional)
+          const newId = product.id.toString();
+          if (!productArray.includes(newId)) {
+            productArray.push(newId);
+          }
+
+          // Encriptar el nuevo array
+          const updatedEncrypted = CryptoJS.AES.encrypt(
+            JSON.stringify(productArray),
+            import.meta.env.VITE_KEY_SECRET
+          ).toString();
+
+          // Guardar la cookie actualizada
+          Cookies.set('idproduct', updatedEncrypted);
+          alert(`Producto ${product.nombre} añadido al carrito`);
+        }}>
         Añadir al carrito
       </button>
     </div>

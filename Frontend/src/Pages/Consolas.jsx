@@ -7,6 +7,8 @@ import {
   Star,
 } from 'lucide-react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import CryptoJS from 'crypto-js';
 
 // Constantes estáticas fuera del componente
 const RANGOS_PRECIOS = [
@@ -148,7 +150,40 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-      <button className="mt-auto w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded font-bold border border-green-400 transition duration-300 transform hover:scale-105 flex items-center justify-center gap-2">
+      <button className="mt-auto w-full bg-purple-600 hover:bg-purple-700 text-white py-2 rounded font-bold border border-green-400 transition duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+        onClick={() => {
+                  // Leer la cookie existente
+                  const encrypted = Cookies.get('idproduct');
+                  let productArray = [];
+
+                  if (encrypted) {
+                    try {
+                      const bytes = CryptoJS.AES.decrypt(encrypted, import.meta.env.VITE_KEY_SECRET);
+                      const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+                      productArray = JSON.parse(decrypted);
+                      console.log("Productos en carrito:", productArray);
+                    } catch (error) {
+                      console.error("Error al desencriptar la cookie:", error);
+                      productArray = [];
+                    }
+                  }
+
+                  // Agregar el nuevo ID si no está duplicado (opcional)
+                  const newId = product.id.toString();
+                  if (!productArray.includes(newId)) {
+                    productArray.push(newId);
+                  }
+
+                  // Encriptar el nuevo array
+                  const updatedEncrypted = CryptoJS.AES.encrypt(
+                    JSON.stringify(productArray),
+                    import.meta.env.VITE_KEY_SECRET
+                  ).toString();
+
+                  // Guardar la cookie actualizada
+                  Cookies.set('idproduct', updatedEncrypted);
+                  alert(`Producto ${product.nombre} añadido al carrito`);
+                }}>
         <ShoppingCart size={18} /> Añadir al carrito
       </button>
     </div>

@@ -143,7 +143,6 @@ function HeaderBar({ onPageChange, activePage }) {
           <button className="text-gray-300 hover:text-green-400 focus:outline-none relative transition duration-200">
             <ShoppingCart size={24} />
             <span className="absolute -top-2 -right-2 bg-green-500 text-black font-bold rounded-full w-5 h-5 flex items-center justify-center text-xs">
-              1
             </span>
           </button>
         </div>
