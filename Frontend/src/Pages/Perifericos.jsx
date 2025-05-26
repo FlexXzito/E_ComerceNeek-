@@ -182,6 +182,7 @@ const ProductCard = ({ product }) => {
 
                   // Guardar la cookie actualizada
                   Cookies.set('idproduct', updatedEncrypted);
+                  window.dispatchEvent(new Event('cartUpdatedManually'));
                   alert(`Producto ${product.nombre} añadido al carrito`);
                 }}
       >

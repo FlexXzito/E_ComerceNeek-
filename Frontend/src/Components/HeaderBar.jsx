@@ -3,20 +3,39 @@ import { Search, ShoppingCart, User, Menu, X, Gamepad, LogOut } from 'lucide-rea
 import LoginSignUp from './LoginSignUp.jsx';
 import Cookies from 'js-cookie';
 import CryptoJS from 'crypto-js';
+import CartDrawer from './CarProducts.jsx'; // Assuming you have a utility function to get cart count
+
+function getCartCount() {
+  const encrypted = Cookies.get('idproduct');
+
+  if (!encrypted) return 0;
+
+  try {
+    const bytes = CryptoJS.AES.decrypt(encrypted, import.meta.env.VITE_KEY_SECRET);
+    const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+    const productArray = JSON.parse(decrypted);
+
+    return Array.isArray(productArray) ? productArray.length : 0;
+  } catch (error) {
+    console.error("Error al leer la cookie del carrito:", error);
+    return 0;
+  }
+}
 
 function HeaderBar({ onPageChange, activePage }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('Login/SignUp');
-  
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
   // Manage visit counter
   const [visits, setVisits] = useState(0);
 
   useEffect(() => {
     // Check login status on component mount and when cookies change
     checkLoginStatus();
-    
+
     // Track visits
     const currentVisits = parseInt(localStorage.getItem('visitCount') || '0', 10);
     const newVisits = currentVisits + 1;
@@ -27,7 +46,7 @@ function HeaderBar({ onPageChange, activePage }) {
   // Function to check if user is logged in
   const checkLoginStatus = () => {
     const usernameEncrypted = Cookies.get('Username');
-    
+
     if (usernameEncrypted) {
       try {
         const bytes = CryptoJS.AES.decrypt(usernameEncrypted, import.meta.env.VITE_KEY_SECRET);
@@ -43,29 +62,29 @@ function HeaderBar({ onPageChange, activePage }) {
       setIsLoggedIn(false);
     }
   };
-  
+
   // Handle successful login
   const handleLoginSuccess = (newUsername) => {
     checkLoginStatus(); // Refresh login status
     setIsLoginModalOpen(false); // Close modal
   };
-  
+
   // Handle logout
   const handleLogout = () => {
     // Remove cookies
     Cookies.remove('id_User', { path: '/' });
     Cookies.remove('Username', { path: '/' });
-    
+
     // Update state
     setIsLoggedIn(false);
     setUsername('Login/SignUp');
-    
+
     alert("Sesión cerrada exitosamente");
   };
 
   // Open login modal
   const openLoginModal = () => setIsLoginModalOpen(true);
-  
+
   // Close login modal
   const closeLoginModal = () => setIsLoginModalOpen(false);
 
@@ -81,6 +100,23 @@ function HeaderBar({ onPageChange, activePage }) {
       setIsMenuOpen(false);
     }
   };
+
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const updateCart = () => setCartCount(getCartCount());
+
+    window.addEventListener('storage', updateCart);
+    window.addEventListener('cartUpdatedManually', updateCart);
+
+    setCartCount(getCartCount());
+
+    return () => {
+      window.removeEventListener('storage', updateCart);
+      window.removeEventListener('cartUpdatedManually', updateCart);
+    };
+  }, []);
+
 
   return (
     <header className="bg-gray-900 text-white sticky top-0 z-10 border-b-2 border-purple-500">
@@ -121,17 +157,17 @@ function HeaderBar({ onPageChange, activePage }) {
           {isLoggedIn ? (
             // User is logged in - show username and logout button
             <div className="flex items-center space-x-2">
-              <button 
+              <button
                 onClick={handleLogout}
                 className="flex flex-row text-gray-300 hover:text-red-500 focus:outline-none transition duration-200"
               >
                 <span className="text-green-400 font-bold mr-2">{username}</span>
-                <LogOut size={20}/>
+                <LogOut size={20} />
               </button>
             </div>
           ) : (
             // User is not logged in - show login button
-            <button 
+            <button
               className="flex flex-row text-gray-300 hover:text-green-400 focus:outline-none transition duration-200"
               onClick={openLoginModal}
             >
@@ -139,10 +175,11 @@ function HeaderBar({ onPageChange, activePage }) {
               <p className="text-green-400 font-bold">Login/SignUp</p>
             </button>
           )}
-          
-          <button className="text-gray-300 hover:text-green-400 focus:outline-none relative transition duration-200">
+
+          <button className="text-gray-300 hover:text-green-400 focus:outline-none relative transition duration-200" onClick={() => setIsCartOpen(true)}>
             <ShoppingCart size={24} />
             <span className="absolute -top-2 -right-2 bg-green-500 text-black font-bold rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              {cartCount}
             </span>
           </button>
         </div>
@@ -167,9 +204,9 @@ function HeaderBar({ onPageChange, activePage }) {
         <div className="container mx-auto px-4">
           <ul className="flex flex-col md:flex-row md:justify-center">
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'home' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('home'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('home'); }}
                 className="flex items-center"
               >
                 <span className="text-green-400 mr-2"></span>Home<span className="text-green-400 ml-2"></span>
@@ -185,54 +222,54 @@ function HeaderBar({ onPageChange, activePage }) {
               </a>
             </li> */}
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'consolas' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('consolas'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('consolas'); }}
                 className="flex items-center"
               >
                 <span className="text-green-400 mr-2"></span>Consolas<span className="text-green-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'pcgaming' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('pcgaming'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('pcgaming'); }}
                 className="flex items-center"
               >
                 <span className="text-purple-400 mr-2"></span>PC_Gaming<span className="text-purple-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'perifericos' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('perifericos'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('perifericos'); }}
                 className="flex items-center"
               >
                 <span className="text-green-400 mr-2"></span>Perifericos<span className="text-green-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'merchandising' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('merchandising'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('merchandising'); }}
                 className="flex items-center"
               >
                 <span className="text-purple-400 mr-2"></span>Merchandising<span className="text-purple-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'coleccionables' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('coleccionables'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('coleccionables'); }}
                 className="flex items-center"
               >
                 <span className="text-green-400 mr-2"></span>Coleccionables<span className="text-green-400 ml-2"></span>
               </a>
             </li>
             <li className={`py-2 md:py-3 md:px-6 hover:bg-gray-700 transition duration-200 ${activePage === 'accesorios' ? 'bg-gray-700' : ''}`}>
-              <a 
-                href="#" 
-                onClick={(e) => { e.preventDefault(); handleNavClick('accesorios'); }} 
+              <a
+                href="#"
+                onClick={(e) => { e.preventDefault(); handleNavClick('accesorios'); }}
                 className="flex items-center"
               >
                 <span className="text-purple-400 mr-2"></span>Accesorios<span className="text-purple-400 ml-2"></span>
@@ -241,13 +278,17 @@ function HeaderBar({ onPageChange, activePage }) {
           </ul>
         </div>
       </nav>
-      
+
       {/* Login/SignUp Modal */}
-      <LoginSignUp 
-        isOpen={isLoginModalOpen} 
+      <LoginSignUp
+        isOpen={isLoginModalOpen}
         onClose={closeLoginModal}
         onLoginSuccess={handleLoginSuccess}
       />
+
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)}>
+        {/* aquí pones tu lógica de renderizado de productos */}
+      </CartDrawer>
     </header>
   );
 }

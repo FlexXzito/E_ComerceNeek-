@@ -206,6 +206,8 @@ function Home() {
 
           // Guardar la cookie actualizada
           Cookies.set('idproduct', updatedEncrypted);
+          // Después de actualizar cookie 'idproduct'
+          window.dispatchEvent(new Event('cartUpdatedManually'));
           alert(`Producto ${product.nombre} añadido al carrito`);
         }}>
         Añadir al carrito
